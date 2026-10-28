@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>TaskFlow — Gestionnaire de Tâches</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-top">
+        <div class="brand">
+          <div class="brand-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div>
+            <h1 class="brand-title">TaskFlow</h1>
+            <p class="current-date" id="currentDate">Aujourd'hui</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="themeToggleBtn" class="icon-btn" aria-label="Changer de thème" title="Mode sombre / clair">
+            <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats Summary Card -->
+      <div class="progress-card">
+        <div class="progress-info">
+          <div>
+            <span class="progress-label">Progression globale</span>
+            <div class="progress-stats">
+              <span id="completedCount" class="highlight-number">0</span> sur <span id="totalCount">0</span> tâches terminées
+            </div>
+          </div>
+          <div class="progress-percent" id="progressPercent">0%</div>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressBarFill" style="width: 0%"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Task Creation Form -->
+    <section class="task-form-card">
+      <form id="taskForm" autocomplete="off">
+        <div class="input-row">
+          <input 
+            type="text" 
+            id="taskTitleInput" 
+            placeholder="Que souhaitez-vous accomplir ?" 
+            required 
+            maxlength="120"
+          />
+          <button type="submit" class="btn-primary" id="submitTaskBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Ajouter</span>
+          </button>
+        </div>
+
+        <div class="form-options">
+          <div class="option-group">
+            <label for="taskCategorySelect" class="option-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+              Catégorie
+            </label>
+            <select id="taskCategorySelect" class="custom-select">
+              <option value="Travail">💼 Travail</option>
+              <option value="Personnel">🏡 Personnel</option>
+              <option value="Courses">🛒 Courses</option>
+              <option value="Santé">🏃 Santé</option>
+              <option value="Projets">🚀 Projets</option>
+            </select>
+          </div>
+
+          <div class="option-group">
+            <label for="taskPrioritySelect" class="option-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              Priorité
+            </label>
+            <select id="taskPrioritySelect" class="custom-select">
+              <option value="haute">🔴 Haute</option>
+              <option value="moyenne" selected>🟡 Moyenne</option>
+              <option value="basse">🟢 Basse</option>
+            </select>
+          </div>
+
+          <div class="option-group">
+            <label for="taskDueDateInput" class="option-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              Échéance
+            </label>
+            <input type="date" id="taskDueDateInput" class="custom-input-date" />
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- Filters, Search & Categories -->
+    <section class="controls-section">
+      <!-- Search -->
+      <div class="search-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="searchInput" placeholder="Rechercher une tâche..." />
+        <button id="clearSearchBtn" class="clear-search-btn" style="display: none;" title="Effacer la recherche">✕</button>
+      </div>
+
+      <!-- Status Tabs -->
+      <div class="tabs-container">
+        <button class="filter-tab active" data-filter="all">Toutes <span class="tab-badge" id="badgeAll">0</span></button>
+        <button class="filter-tab" data-filter="active">En cours <span class="tab-badge" id="badgeActive">0</span></button>
+        <button class="filter-tab" data-filter="completed">Terminées <span class="tab-badge" id="badgeCompleted">0</span></button>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="category-pills-bar" id="categoryPills">
+        <button class="cat-pill active" data-cat="all">Toutes</button>
+        <button class="cat-pill" data-cat="Travail">💼 Travail</button>
+        <button class="cat-pill" data-cat="Personnel">🏡 Personnel</button>
+        <button class="cat-pill" data-cat="Courses">🛒 Courses</button>
+        <button class="cat-pill" data-cat="Santé">🏃 Santé</button>
+        <button class="cat-pill" data-cat="Projets">🚀 Projets</button>
+      </div>
+    </section>
+
+    <!-- Task List -->
+    <main class="tasks-main">
+      <div class="list-header">
+        <h2 id="listTitle" class="list-title">Mes tâches</h2>
+        <div class="list-actions">
+          <select id="sortSelect" class="sort-select" title="Trier les tâches">
+            <option value="date-created">Plus récentes d'abord</option>
+            <option value="due-date">Échéance la plus proche</option>
+            <option value="priority">Priorité (Haute à basse)</option>
+            <option value="alphabetical">Ordre alphabétique</option>
+          </select>
+          <button id="clearCompletedBtn" class="btn-subtle" title="Supprimer les tâches terminées">
+            Nettoyer terminées
+          </button>
+        </div>
+      </div>
+
+      <ul class="task-list" id="taskList" aria-label="Liste de tâches">
+        <!-- Rendered by JS -->
+      </ul>
+
+      <!-- Empty State -->
+      <div class="empty-state" id="emptyState" style="display: none;">
+        <div class="empty-illustration">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </div>
+        <h3 id="emptyStateTitle">Aucune tâche trouvée</h3>
+        <p id="emptyStateDesc">Ajoutez une nouvelle tâche ci-dessus pour démarrer votre journée sereinement !</p>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>TaskFlow &bull; Sauvegardé automatiquement sur votre appareil</p>
+    </footer>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <span id="toastMessage">Tâche mise à jour</span>
+    <button id="toastAction" class="toast-action" style="display: none;">Annuler</button>
+  </div>
+
+  <!-- Modal Edit Task -->
+  <div class="modal-overlay" id="editModal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Modifier la tâche</h3>
+        <button id="closeModalBtn" class="close-btn" aria-label="Fermer">&times;</button>
+      </div>
+      <form id="editTaskForm">
+        <input type="hidden" id="editTaskId" />
+        <div class="modal-field">
+          <label for="editTaskTitle">Titre de la tâche</label>
+          <input type="text" id="editTaskTitle" required maxlength="120" />
+        </div>
+        <div class="modal-row">
+          <div class="modal-field">
+            <label for="editTaskCategory">Catégorie</label>
+            <select id="editTaskCategory" class="custom-select">
+              <option value="Travail">💼 Travail</option>
+              <option value="Personnel">🏡 Personnel</option>
+              <option value="Courses">🛒 Courses</option>
+              <option value="Santé">🏃 Santé</option>
+              <option value="Projets">🚀 Projets</option>
+            </select>
+          </div>
+          <div class="modal-field">
+            <label for="editTaskPriority">Priorité</label>
+            <select id="editTaskPriority" class="custom-select">
+              <option value="haute">🔴 Haute</option>
+              <option value="moyenne">🟡 Moyenne</option>
+              <option value="basse">🟢 Basse</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-field">
+          <label for="editTaskDueDate">Date d'échéance</label>
+          <input type="date" id="editTaskDueDate" class="custom-input-date" />
+        </div>
+        <div class="modal-buttons">
+          <button type="button" id="cancelEditBtn" class="btn-secondary">Annuler</button>
+          <button type="submit" class="btn-primary">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
